@@ -45,6 +45,6 @@ public class MeteringPoller {
 
         System.out.println(sum.getScore() + " " + sum.getWord());
         repository.save(sum);
-        return "test";
+        return "redirect:/request/"+word;
     }
 }

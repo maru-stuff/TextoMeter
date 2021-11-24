@@ -17,10 +17,30 @@ public class TextometerController {
     private final MeteringRepository repository;
     //@GetMapping("/{word}")
     @GetMapping("/test")
-    public String ServeMetering(@PathVariable String word){
+    //public String ServeMetering(@PathVariable String word){
+    public String TestMetering(){
         Metering metering = new Metering();
+        repository.findAll().forEach(System.out::println);
 
         return "test";
     }
+
+    @GetMapping("/{word}")
+    public String ServeMetering(@PathVariable String word) {
+        Metering metering = new Metering();
+        if(repository.existsById(word)){
+            metering = repository.findById(word).get();
+
+            System.out.println("inside Serve Metering");
+            System.out.println("Word: "+metering.getWord()+" Score: " +metering.getScore());
+            return "test";
+        }
+        else{
+
+            return "redirect:/poll/"+word;
+        }
+
+    }
+
 
 }
