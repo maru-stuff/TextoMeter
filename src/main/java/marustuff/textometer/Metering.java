@@ -12,9 +12,9 @@ import javax.persistence.Id;
 @AllArgsConstructor
 public class Metering {
     @Id
-    String word;
+    private String word;
 
-    int score;
+    private int score;
     public void incScore(){
         score++;
     }

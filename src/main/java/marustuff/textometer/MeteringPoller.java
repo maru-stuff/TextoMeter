@@ -31,6 +31,17 @@ public class MeteringPoller {
 
     @GetMapping("/{word}")
     public String pollMeterings(@PathVariable String word){
+        pollMetering(word);
+        return "redirect:/request/"+word;
+    }
+    @GetMapping("/{word}/{word2}")
+    public String pollVs(@PathVariable("word") String word, @PathVariable("word2") String word2){
+        pollMetering(word);
+        pollMetering(word2);
+        return "redirect:/request/vs/"+word+"/"+word2;
+    }
+
+    private void pollMetering(String word){
         System.out.println(word);
         try{
             repository.deleteById(word);
@@ -45,6 +56,5 @@ public class MeteringPoller {
 
         System.out.println(sum.getScore() + " " + sum.getWord());
         repository.save(sum);
-        return "redirect:/request/"+word;
     }
 }

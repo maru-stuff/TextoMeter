@@ -1,10 +1,27 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Test</title>
 </head>
 <body>
+<div class="wordlist">
+    <h2> Currently stored words</h2>
+    <table>
+        <thead>
+        <tr>
+            <th>Word</th>
+            <th>Score</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="metering :${currentWords}">
+            <td th:text="${metering.getWord()}"></td>
+            <td th:text="${metering.getScore()}"></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
 
 </body>
 </html>

@@ -17,9 +17,6 @@ public class WebScraperEndpoint {
     private Metering metering = new Metering();
 
     WebScraperEndpoint(){
-        metering.setWord("");
-        metering.setScore(0);
-        System.out.println("dbg Obiekt utworzono");
     }
 
     WebScraperEndpoint(String website,String word){
@@ -46,8 +43,6 @@ public class WebScraperEndpoint {
                }
 
             }
-
-
 
             System.out.println(text);
         } catch (Exception e) {

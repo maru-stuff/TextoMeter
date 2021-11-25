@@ -4,6 +4,7 @@ import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,28 +19,34 @@ public class TextometerController {
     //@GetMapping("/{word}")
     @GetMapping("/test")
     //public String ServeMetering(@PathVariable String word){
-    public String TestMetering(){
-        Metering metering = new Metering();
-        repository.findAll().forEach(System.out::println);
-
+    public String TestMetering(Model model){
+        //Metering metering = new Metering();
+        model.addAttribute("currentWords",repository.findAll());
         return "test";
     }
 
     @GetMapping("/{word}")
-    public String ServeMetering(@PathVariable String word) {
+    public String ServeMetering(@PathVariable String word, Model model) {
         Metering metering = new Metering();
         if(repository.existsById(word)){
-            metering = repository.findById(word).get();
+            //metering = repository.findById(word).get();
+            model.addAttribute("currentWord",metering = repository.findById(word).get());
 
-            System.out.println("inside Serve Metering");
-            System.out.println("Word: "+metering.getWord()+" Score: " +metering.getScore());
-            return "test";
+            return "request";
         }
         else{
 
             return "redirect:/poll/"+word;
         }
 
+    }
+
+    @GetMapping("/vs/{word}/{word2}")
+    public String ServeVsMetering(@PathVariable("word") String word, @PathVariable("word2") String word2, Model model){
+        if(repository.existsById(word)&&repository.existsById(word2)){
+            return "test";
+        }
+         return "redirect:/poll/"+word+"/"+word2;
     }
 
 
