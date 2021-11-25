@@ -27,10 +27,10 @@ public class TextometerController {
 
     @GetMapping("/{word}")
     public String ServeMetering(@PathVariable String word, Model model) {
-        Metering metering = new Metering();
+        //Metering metering = new Metering();
         if(repository.existsById(word)){
             //metering = repository.findById(word).get();
-            model.addAttribute("currentWord",metering = repository.findById(word).get());
+            model.addAttribute("currentWord",repository.findById(word).get());
 
             return "request";
         }
@@ -44,7 +44,9 @@ public class TextometerController {
     @GetMapping("/vs/{word}/{word2}")
     public String ServeVsMetering(@PathVariable("word") String word, @PathVariable("word2") String word2, Model model){
         if(repository.existsById(word)&&repository.existsById(word2)){
-            return "test";
+            Vs vs = new Vs(repository.findById(word).get(),repository.findById(word2).get());
+            model.addAttribute("currentVs",vs);
+            return "vs";
         }
          return "redirect:/poll/"+word+"/"+word2;
     }

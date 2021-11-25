@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+  <link th:href="@{/styles/cssandjs/main.css}" rel="stylesheet"/>
+</head>
+<body>
+<div class="background">
+  <div class="backgroundLeftPercentage" th:style="'width:' + ${currentVs.getPercentage()} + 'vw'"></div>
+</div>
+<div class="foreground">
+  <h2 class="siteTitle">Which word is more popular?</h2>
+  <div style='display:flex'>
+    <div class="foregroundElement"><p th:text="${currentVs.getWord1()}"></p></div>
+    <div class="foregroundElement"><p th:text="${currentVs.getPercentage()}"></p></div>
+    <div class="foregroundElement"><p th:text="${currentVs.getWord2()}"></p></div>
+  </div>
+
+</div>
+
+</body>
+</html>
