@@ -18,20 +18,26 @@ public class WebsiteController {
 
     @GetMapping("/list")
     public String listWebsites(Model model){
+        //string do stałej
         model.addAttribute("currentWebsites",repository.findAll());
+        //string do stałej
         return "list";
     }
 
     @GetMapping("/add")
     public String addWebsite(Model model){
         Website website = new Website();
+        //string do stałej
         model.addAttribute("website", website);
+        //string do stałej
         return "add";
     }
 
     @PostMapping("/submit")
     public String saveWebsite(@ModelAttribute Website website){
+        // należałoby najpierw zweryfikować czy website posiada odpowiednie wartości, dodatkowo mamy tutaj repository w użyciu, które aż się prosi o przeniesienie do osobnego serwisu WebsiteService i tam dopiero obsłużeniu tego repozytorium
         repository.save(website);
+        //string do stałej
         return "redirect:/website/list";
     }
 

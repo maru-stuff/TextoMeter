@@ -25,6 +25,7 @@ public class Metering {
     }
 
     public Metering(){
+        // "none" do stałej
         this.word="none";
         this.score=0;
 
@@ -37,10 +38,12 @@ public class Metering {
 
     }
 
+    //nieużywany konstruktor
     public Metering (Metering...meterings){
 
         for(Metering element : meterings){
             this.setScore(this.getScore()+element.getScore());
+            // Stringów, jako że są to obiekty nie należy porównywać znakami == !=, intelliJ podpowiada użycie equals. Oprócz tego nie mamy pewności, że te obiekty nie są null'ami
             if(this.getWord() != element.getWord()){
                 this.setWord(element.getWord());
             }
@@ -53,3 +56,4 @@ public class Metering {
         this.score=this.score+ metering.getScore();
     }
 }
+//formatownaie kodu

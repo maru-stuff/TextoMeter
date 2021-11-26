@@ -12,6 +12,7 @@ import org.springframework.stereotype.Component;
 @Component
 @RequiredArgsConstructor
 public class InitializerRunner implements CommandLineRunner {
+//po co ten non null?
     @NonNull
     @Autowired
     private final WebsiteRepository repository;

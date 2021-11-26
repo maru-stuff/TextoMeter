@@ -22,21 +22,26 @@ public class PollingController {
     @Autowired
     private final MeteringRepository repository;
     private final WebsiteRepository websiteRepository;
+    //to serwis, powinno być to nieco inaczej zrealizowane
     private WebScraper we = new WebScraper();
 
     @GetMapping("/{word}")
     public String pollMeterings(@PathVariable String word){
         pollMetering(word);
+        //string do stałej
         return "redirect:/request/get/"+word;
     }
     @GetMapping("/{word}/{word2}")
     public String pollVs(@PathVariable("word") String word, @PathVariable("word2") String word2){
         pollMetering(word);
         pollMetering(word2);
+        //string do stałej
         return "redirect:/request/getvs/"+word+"/"+word2;
     }
 
+    // to powinno się dziać w jakimś serwisie, w kontroler powinien służyć tylko do przekazywania requestów i zwracania response'ów
     private void pollMetering(String word){
+        //co tutaj dokładnie się dzieje?
         try{
             repository.deleteById(word);
         } catch (Exception e){
@@ -51,3 +56,4 @@ public class PollingController {
         repository.save(sum);
     }
 }
+//formatowanie kodu

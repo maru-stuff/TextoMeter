@@ -17,3 +17,4 @@ public class IndexController {
         return "index";
     }
 }
+//formatownaie + stringi do stałej

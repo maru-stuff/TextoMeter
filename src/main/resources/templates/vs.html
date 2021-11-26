@@ -14,6 +14,7 @@
   <h2 class="siteTitle">Which word is more popular?</h2>
   <div style='display:flex'>
     <div class="foregroundElement"><p th:text="${currentVs.getWord1()}"></p></div>
+    // dodałbym znaczek procenta, bo nieco mylące :P
     <div class="foregroundElement"><p th:text="${currentVs.getPercentage()}"></p></div>
     <div class="foregroundElement"><p th:text="${currentVs.getWord2()}"></p></div>
   </div>
