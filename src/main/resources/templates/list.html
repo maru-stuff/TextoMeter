@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Websites list</title>
+</head>
+<body>
+<div class="websitesList">
+  <h2>Currently stored websites</h2>
+  <form action="/website/add">
+    <input type="submit" value="Add a website">
+  </form>
+  <table>
+    <thead>
+    <tr>
+      <th>Id</th>
+      <th>Address</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="metering : ${currentWebsites}">
+      <td th:text="${metering.getId()}"></td>
+      <td th:text="${metering.getAddress()}"></td>
+    </tr>
+    </tbody>
+  </table>
+</div>
+
+</body>
+</html>

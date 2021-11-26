@@ -11,6 +11,7 @@ width:100vw;
 margin-left:auto;
 margin-right:auto;
 text-align:center;
+font-size:xx-large;
 }
 
 .foregroundElement{
@@ -18,7 +19,7 @@ padding:2vw;
 flex-grow:1;
 position:relative;
 text-align:center;
-font-size:x-large;
+font-size:xx-large;
 font-weight:bold;
 }
 

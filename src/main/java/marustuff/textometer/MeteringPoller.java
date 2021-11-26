@@ -20,6 +20,7 @@ public class MeteringPoller {
     @NonNull
     @Autowired
     private final MeteringRepository repository;
+    private final WebsiteRepository websiteRepository;
     private WebScraperEndpoint we = new WebScraperEndpoint();
     private ArrayList<String> websites =new ArrayList<String>();
     {
@@ -46,12 +47,12 @@ public class MeteringPoller {
         try{
             repository.deleteById(word);
         } catch (Exception e){
-            Metering empty = new Metering(word,0);
+            Metering empty = new Metering(word);
             repository.save(empty);
         }
         Metering sum = new Metering(word);
-        for(String website:websites){
-            sum.AddMetering(we.getMetering(website,word));
+        for(Website website:websiteRepository.findAll()){
+            sum.AddMetering(we.getMetering(website.getAddress(),word));
         }
 
         System.out.println(sum.getScore() + " " + sum.getWord());

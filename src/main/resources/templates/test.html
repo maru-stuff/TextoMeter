@@ -18,6 +18,7 @@
         <tr th:each="metering :${currentWords}">
             <td th:text="${metering.getWord()}"></td>
             <td th:text="${metering.getScore()}"></td>
+            <td th:text="${metering.getCreatedAt()}"></td></td>
         </tr>
         </tbody>
     </table>

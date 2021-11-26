@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import java.time.Instant;
 
 @Data
 @Entity
@@ -15,18 +16,25 @@ public class Metering {
     private String word;
 
     private int score;
+    public Instant createdAt;
     public void incScore(){
         score++;
+    }
+
+    {
+        this.createdAt = Instant.now();
     }
 
     public Metering(){
         this.word="none";
         this.score=0;
+
     }
 
     public Metering(String word){
         this.word=word;
         this.score=0;
+
 
     }
 
