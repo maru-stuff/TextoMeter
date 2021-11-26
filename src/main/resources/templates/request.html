@@ -3,9 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <link th:href="@{/styles/cssandjs/main.css}" rel="stylesheet"/>
 </head>
 <body>
-<div>
+<div class="background"></div>
+<div class="foreground">
 <p th:text="${currentWord.getWord()}"></p></br>
     <p th:text="${currentWord.getScore()}"></p>
 </div>

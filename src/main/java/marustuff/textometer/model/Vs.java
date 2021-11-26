@@ -1,13 +1,14 @@
-package marustuff.textometer;
+package marustuff.textometer.model;
 
 import lombok.Data;
+import marustuff.textometer.model.Metering;
 
 @Data
 public class Vs {
     private String word1;
     private String word2;
     private int percentage;
-    public Vs(Metering metone,Metering mettwo){
+    public Vs(Metering metone, Metering mettwo){
         if(metone.getScore() > mettwo.getScore()) {
             this.calculatePercentage(metone,mettwo);
             this.word1=metone.getWord();

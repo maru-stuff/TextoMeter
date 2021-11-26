@@ -1,6 +1,8 @@
-package marustuff.textometer;
+package marustuff.textometer.controller;
 
 import lombok.RequiredArgsConstructor;
+import marustuff.textometer.model.Website;
+import marustuff.textometer.repository.WebsiteRepository;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;

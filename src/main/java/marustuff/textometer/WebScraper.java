@@ -1,9 +1,8 @@
 package marustuff.textometer;
 
+import marustuff.textometer.model.Metering;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
 
 import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
@@ -13,13 +12,13 @@ import java.nio.charset.StandardCharsets;
 import static java.nio.file.Files.newBufferedReader;
 
 
-public class WebScraperEndpoint {
+public class WebScraper {
     private Metering metering = new Metering();
 
-    WebScraperEndpoint(){
+    public WebScraper(){
     }
 
-    WebScraperEndpoint(String website,String word){
+    WebScraper(String website, String word){
         this.metering=this.getMetering(website,word);
     }
 

@@ -3,8 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <title>Websites list</title>
+  <link th:href="@{/styles/cssandjs/main.css}" rel="stylesheet"/>
 </head>
 <body>
+<div class="background"></div>
+<div class="foreground">
 <div class="websitesList">
   <h2>Currently stored websites</h2>
   <form action="/website/add">
@@ -25,6 +28,6 @@
     </tbody>
   </table>
 </div>
-
+</div>
 </body>
 </html>

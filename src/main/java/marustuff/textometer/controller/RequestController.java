@@ -1,7 +1,10 @@
-package marustuff.textometer;
+package marustuff.textometer.controller;
 
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
+import marustuff.textometer.model.Metering;
+import marustuff.textometer.repository.MeteringRepository;
+import marustuff.textometer.model.Vs;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -15,7 +18,7 @@ import java.time.temporal.ChronoUnit;
 @Controller
 @RequestMapping("/request")
 @RequiredArgsConstructor
-public class TextometerController {
+public class RequestController {
     @NonNull
     @Autowired
     private final MeteringRepository repository;

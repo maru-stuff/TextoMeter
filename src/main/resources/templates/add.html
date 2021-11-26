@@ -2,10 +2,12 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Add website address to web scraper database</title>
+    <link th:href="@{/styles/cssandjs/main.css}" rel="stylesheet"/>
 </head>
 <body>
-<div>
+<div class="background"></div>
+<div class="foreground">
     <form action="#" th:action="@{/website/submit}" th:object="${website}" method="post">
         <input type="text" th:field="*{address}">
         <label>Website address</label>

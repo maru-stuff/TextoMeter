@@ -1,4 +1,4 @@
-package marustuff.textometer;
+package marustuff.textometer.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -19,5 +19,6 @@ public class Website {
     private Long Id;
 
      private String address;
+
 
 }
