@@ -21,32 +21,25 @@ public class RequestController {
     @NonNull
     @Autowired
     private final MeteringRepository repository;
-    //@GetMapping("/{word}")
 
     @PostMapping("/post")
     public String submitWord(@ModelAttribute Metering metering){
-        System.out.println("submitWord");
         return "redirect:/request/get/"+metering.getWord();
     }
 
     @PostMapping("/postvs")
     public String submitVS(@ModelAttribute Vs vs){
-        System.out.println("submitVS");
         return "redirect:/request/getvs/"+vs.getWord1()+"/"+vs.getWord2();
     }
     @GetMapping("/debug/metering")
-    //public String ServeMetering(@PathVariable String word){
     public String TestMetering(Model model){
-        //Metering metering = new Metering();
         model.addAttribute("currentWords",repository.findAll());
         return "debugMeteringRepository";
     }
 
     @GetMapping("get/{word}")
     public String ServeMetering(@PathVariable String word, Model model) {
-        //Metering metering = new Metering();
         if(repository.existsById(word)&&isItFresh(repository.findById(word).get())){
-            //metering = repository.findById(word).get();
             model.addAttribute("currentWord",repository.findById(word).get());
 
             return "request";

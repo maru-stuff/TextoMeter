@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import java.util.ArrayList;
 
 @RequestMapping("/poll")
 @Controller
@@ -38,7 +37,6 @@ public class PollingController {
     }
 
     private void pollMetering(String word){
-        System.out.println(word);
         try{
             repository.deleteById(word);
         } catch (Exception e){
@@ -50,7 +48,6 @@ public class PollingController {
             sum.AddMetering(we.getMetering(website.getAddress(),word));
         }
 
-        System.out.println(sum.getScore() + " " + sum.getWord());
         repository.save(sum);
     }
 }

@@ -14,7 +14,6 @@ public class IndexController {
         Vs vs = new Vs();
         model.addAttribute("metering",metering);
         model.addAttribute("vs",vs);
-        System.out.println("index");
         return "index";
     }
 }

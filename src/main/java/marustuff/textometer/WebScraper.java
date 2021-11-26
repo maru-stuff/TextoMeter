@@ -9,7 +9,6 @@ import java.io.ByteArrayInputStream;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 
-import static java.nio.file.Files.newBufferedReader;
 
 
 public class WebScraper {
@@ -43,7 +42,6 @@ public class WebScraper {
 
             }
 
-            System.out.println(text);
         } catch (Exception e) {
             e.printStackTrace();
         }
