@@ -8,7 +8,33 @@
 <body>
 <div class="background"></div>
 <div class="foreground">
-    <div>Textometer stub page</div>
+    <h2>Welcome to textometer</h2>
+    <div><p>Check how frequently word can be found on websites in the database</p></div>
+    <div><p th:text="${error}"></p></div>
+    <div>
+        <form action="#" th:action="@{/request/post}" th:object="${metering}" method="post">
+            <label>Word to be checked: </label>
+            <input type="text" th:field="*{word}" value=""/>
+            <button type="submit">Submit</button>
+        </form>
+
+    </div>
+    <div><p>Check two words, to see which one is more popular on websites in the database</p></div>
+    <div>
+        <form action="#" th:action="@{/request/postvs}" th:object="${vs}" method="post">
+            <label>First word to be compared: </label>
+            <input type="text" th:field="*{word1}" value=""/>
+            <label>Second word to be compared: </label>
+            <input type="text" th:field="*{word2}" value=""/>
+            <button type="submit">Submit</button>
+        </form>
+    </div>
+    <div><p>Check and edit website list that are scrapped</p></div>
+    <a href="/website/list">
+        <button type="button">List of websites</button>
+    </a>
+    <div></div>
+
 </div>
 
 </body>

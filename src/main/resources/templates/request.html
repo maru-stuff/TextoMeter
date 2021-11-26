@@ -2,14 +2,21 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>How popular is the word?</title>
     <link th:href="@{/styles/cssandjs/main.css}" rel="stylesheet"/>
 </head>
 <body>
 <div class="background"></div>
 <div class="foreground">
-<p th:text="${currentWord.getWord()}"></p></br>
-    <p th:text="${currentWord.getScore()}"></p>
+    <div >
+
+        <h2 th:text="'The word: '+${currentWord.getWord()}"></h2>
+
+        <h2 th:text="'Was found '+${currentWord.getScore()}+' times'"></h2>
+
+    </div>
+    <a href="/"><button type="button">Back to main page</button></a>
+
 </div>
 
 </body>

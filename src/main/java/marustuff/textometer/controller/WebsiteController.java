@@ -2,7 +2,8 @@ package marustuff.textometer.controller;
 
 import lombok.RequiredArgsConstructor;
 import marustuff.textometer.model.Website;
-import marustuff.textometer.repository.WebsiteRepository;
+import marustuff.textometer.service.WebsiteService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,26 +15,21 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/website")
 @RequiredArgsConstructor
 public class WebsiteController {
-    private final WebsiteRepository repository;
+    @Autowired
+    private final WebsiteService websiteService;
 
     @GetMapping("/list")
-    public String listWebsites(Model model){
-        model.addAttribute("currentWebsites",repository.findAll());
-        return "list";
+    public String listWebsites(Model model) {
+        return websiteService.serveListWebsites(model);
     }
 
     @GetMapping("/add")
-    public String addWebsite(Model model){
-        Website website = new Website();
-        model.addAttribute("website", website);
-        return "add";
+    public String addWebsite(Model model) {
+        return websiteService.serveAddWebsite(model);
     }
 
     @PostMapping("/submit")
-    public String saveWebsite(@ModelAttribute Website website){
-        repository.save(website);
-        return "redirect:/website/list";
+    public String saveWebsite(@ModelAttribute Website website) {
+        return websiteService.serveSaveWebsite(website);
     }
-
-
 }

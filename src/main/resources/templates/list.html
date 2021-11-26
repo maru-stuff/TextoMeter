@@ -3,31 +3,37 @@
 <head>
     <meta charset="UTF-8">
     <title>Websites list</title>
-  <link th:href="@{/styles/cssandjs/main.css}" rel="stylesheet"/>
+    <link th:href="@{/styles/cssandjs/main.css}" rel="stylesheet"/>
 </head>
 <body>
 <div class="background"></div>
 <div class="foreground">
-<div class="websitesList">
-  <h2>Currently stored websites</h2>
-  <form action="/website/add">
-    <input type="submit" value="Add a website">
-  </form>
-  <table>
-    <thead>
-    <tr>
-      <th>Id</th>
-      <th>Address</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr th:each="metering : ${currentWebsites}">
-      <td th:text="${metering.getId()}"></td>
-      <td th:text="${metering.getAddress()}"></td>
-    </tr>
-    </tbody>
-  </table>
-</div>
+    <div class="websitesList">
+        <h2>Currently stored websites</h2>
+
+        <table>
+            <thead>
+            <tr>
+                <th>Id</th>
+                <th>Address</th>
+                <th>
+                    <form action="/website/add">
+                        <input type="submit" value="Add a website">
+                    </form>
+                </th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="metering : ${currentWebsites}">
+                <td th:text="${metering.getId()}"></td>
+                <td th:text="${metering.getAddress()}"></td>
+            </tr>
+            </tbody>
+        </table>
+        <a href="/">
+            <button type="button">Back to main page</button>
+        </a>
+    </div>
 </div>
 </body>
 </html>
