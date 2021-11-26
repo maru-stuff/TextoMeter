@@ -10,6 +10,7 @@
   <div class="backgroundLeftPercentage" th:style="'width:' + ${currentVs.getPercentage()} + 'vw'"></div>
 </div>
 <div class="foreground">
+  <a href="/"><button type="button">Back to main page</button></a>
   <h2 class="siteTitle">Which word is more popular?</h2>
   <div style='display:flex'>
     <div class="foregroundElement"><p th:text="${currentVs.getWord1()}"></p></div>

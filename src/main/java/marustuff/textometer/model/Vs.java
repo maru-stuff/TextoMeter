@@ -8,6 +8,12 @@ public class Vs {
     private String word1;
     private String word2;
     private int percentage;
+
+    public Vs(){
+        this.word1="none";
+        this.word2="none";
+        this.percentage=100;
+    }
     public Vs(Metering metone, Metering mettwo){
         if(metone.getScore() > mettwo.getScore()) {
             this.calculatePercentage(metone,mettwo);

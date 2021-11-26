@@ -8,6 +8,7 @@
 <body>
 <div class="background"></div>
 <div class="foreground">
+    <a href="/"><button type="button">Back to main page</button></a>
     <form action="#" th:action="@{/website/submit}" th:object="${website}" method="post">
         <input type="text" th:field="*{address}">
         <label>Website address</label>

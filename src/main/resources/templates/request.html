@@ -8,8 +8,14 @@
 <body>
 <div class="background"></div>
 <div class="foreground">
-<p th:text="${currentWord.getWord()}"></p></br>
-    <p th:text="${currentWord.getScore()}"></p>
+    <div >
+        <a href="/"><button type="button">Back to main page</button></a>
+        <h2 th:text="'The word: '+${currentWord.getWord()}"></h2>
+
+        <h2 th:text="'Was found '+${currentWord.getScore()}+' times'"></h2>
+
+    </div>
+
 </div>
 
 </body>
