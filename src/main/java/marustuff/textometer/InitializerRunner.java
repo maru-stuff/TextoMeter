@@ -1,6 +1,5 @@
 package marustuff.textometer;
 
-import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import marustuff.textometer.model.Website;
 import marustuff.textometer.repository.WebsiteRepository;
@@ -8,12 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
-
 @Component
 @RequiredArgsConstructor
 public class InitializerRunner implements CommandLineRunner {
-//po co ten non null?
-    @NonNull
     @Autowired
     private final WebsiteRepository repository;
 

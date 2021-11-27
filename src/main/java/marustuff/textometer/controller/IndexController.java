@@ -8,13 +8,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 public class IndexController {
+    private final String modelMetering="metering";
+    private final String modelVs="vs";
+    private final String indexControlerReturn="index";
     @RequestMapping("/")
     public String fetchIndex(Model model){
         Metering metering = new Metering();
         Vs vs = new Vs();
-        model.addAttribute("metering",metering);
-        model.addAttribute("vs",vs);
-        return "index";
+        model.addAttribute(modelMetering,metering);
+        model.addAttribute(modelVs,vs);
+        return indexControlerReturn;
     }
 }
-//formatownaie + stringi do stałej

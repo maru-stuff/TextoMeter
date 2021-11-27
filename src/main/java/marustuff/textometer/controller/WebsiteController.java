@@ -15,30 +15,30 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequiredArgsConstructor
 public class WebsiteController {
     private final WebsiteRepository repository;
+    private final String listWebsitesReturn="list";
+    private final String listWebsitesModelAttributeName= "currentWebsites";
+    private final String addWebsiteReturn="add";
+    private final String addWebsiteModelAttributeName="website";
+    private final String saveWebsiteReturn="redirect:/website/list";
 
     @GetMapping("/list")
     public String listWebsites(Model model){
-        //string do stałej
-        model.addAttribute("currentWebsites",repository.findAll());
-        //string do stałej
-        return "list";
+        model.addAttribute(listWebsitesModelAttributeName,repository.findAll());
+        return listWebsitesReturn;
     }
 
     @GetMapping("/add")
     public String addWebsite(Model model){
         Website website = new Website();
-        //string do stałej
-        model.addAttribute("website", website);
-        //string do stałej
-        return "add";
+        model.addAttribute(addWebsiteModelAttributeName, website);
+        return addWebsiteReturn;
     }
 
     @PostMapping("/submit")
     public String saveWebsite(@ModelAttribute Website website){
         // należałoby najpierw zweryfikować czy website posiada odpowiednie wartości, dodatkowo mamy tutaj repository w użyciu, które aż się prosi o przeniesienie do osobnego serwisu WebsiteService i tam dopiero obsłużeniu tego repozytorium
         repository.save(website);
-        //string do stałej
-        return "redirect:/website/list";
+        return saveWebsiteReturn;
     }
 
 

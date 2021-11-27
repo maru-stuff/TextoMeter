@@ -9,11 +9,10 @@ public class Vs {
     private String word1;
     private String word2;
     private int percentage;
-
+    private final String emptyWord="none";
     public Vs(){
-        // "none" powinno być wyniesione jako stała, ogólnie takie stringi w kodzie to bardzo riski rzecz, lepiej zawsze mieć je jako stała
-        this.word1="none";
-        this.word2="none";
+        this.word1=emptyWord;
+        this.word2=emptyWord;
         this.percentage=100;
     }
     public Vs(Metering metone, Metering mettwo){
@@ -26,7 +25,7 @@ public class Vs {
             this.calculatePercentage(mettwo,metone);
             this.word1=mettwo.getWord();
             this.word2=metone.getWord();
-        };
+        }
 
         }
 
@@ -34,8 +33,7 @@ public class Vs {
         if (mettwo.getScore() == 0) {
             this.percentage = 100;
         } else {
-            //po co to przypisanie do zmiennej?
-            int a = this.percentage = (int) (((double) metone.getScore() /((double) metone.getScore() + (double) mettwo.getScore()))* 100);
+            this.percentage = (int) (((double) metone.getScore() /((double) metone.getScore() + (double) mettwo.getScore()))* 100);
 
         }
     }
