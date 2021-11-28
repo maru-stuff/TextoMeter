@@ -15,9 +15,7 @@ import javax.persistence.Id;
 @AllArgsConstructor
 public class Website {
     @Id
-    @GeneratedValue(strategy= GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long Id;
     private String address;
-
-
 }

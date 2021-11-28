@@ -2,7 +2,8 @@ package marustuff.textometer.controller;
 
 import lombok.RequiredArgsConstructor;
 import marustuff.textometer.model.Website;
-import marustuff.textometer.repository.WebsiteRepository;
+import marustuff.textometer.service.WebsiteService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,32 +15,23 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/website")
 @RequiredArgsConstructor
 public class WebsiteController {
-    private final WebsiteRepository repository;
-    private final String listWebsitesReturn="list";
-    private final String listWebsitesModelAttributeName= "currentWebsites";
-    private final String addWebsiteReturn="add";
-    private final String addWebsiteModelAttributeName="website";
-    private final String saveWebsiteReturn="redirect:/website/list";
+    @Autowired
+    private final WebsiteService websiteService;
 
     @GetMapping("/list")
-    public String listWebsites(Model model){
-        model.addAttribute(listWebsitesModelAttributeName,repository.findAll());
-        return listWebsitesReturn;
+    public String listWebsites(Model model) {
+        return websiteService.serveListWebsites(model);
+
     }
 
     @GetMapping("/add")
-    public String addWebsite(Model model){
-        Website website = new Website();
-        model.addAttribute(addWebsiteModelAttributeName, website);
-        return addWebsiteReturn;
+    public String addWebsite(Model model) {
+        return websiteService.serveAddWebsite(model);
+
     }
 
     @PostMapping("/submit")
-    public String saveWebsite(@ModelAttribute Website website){
-        // należałoby najpierw zweryfikować czy website posiada odpowiednie wartości, dodatkowo mamy tutaj repository w użyciu, które aż się prosi o przeniesienie do osobnego serwisu WebsiteService i tam dopiero obsłużeniu tego repozytorium
-        repository.save(website);
-        return saveWebsiteReturn;
+    public String saveWebsite(@ModelAttribute Website website) {
+        return websiteService.serveSaveWebsite(website);
     }
-
-
 }
