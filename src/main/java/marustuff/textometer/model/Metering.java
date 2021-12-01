@@ -13,10 +13,10 @@ import java.time.Instant;
 @Entity
 @AllArgsConstructor
 public class Metering {
-    private static final String emptyWord = "none";
+    private static final String emptyWord = "";
     @CreationTimestamp
-    @Column(updatable = false)
-    public Instant createdAt;
+    @Column(updatable = false, nullable = false)
+    private Instant createdAt;
     @Id
     private String word;
     @Column

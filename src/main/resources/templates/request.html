@@ -9,12 +9,13 @@
 <div class="background"></div>
 <div class="foreground">
     <div >
-        <a href="/"><button type="button">Back to main page</button></a>
+
         <h2 th:text="'The word: '+${currentWord.getWord()}"></h2>
 
         <h2 th:text="'Was found '+${currentWord.getScore()}+' times'"></h2>
 
     </div>
+    <a href="/"><button type="button">Back to main page</button></a>
 
 </div>
 

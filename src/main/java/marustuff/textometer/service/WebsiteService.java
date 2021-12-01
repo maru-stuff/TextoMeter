@@ -2,63 +2,66 @@ package marustuff.textometer.service;
 
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
-//import marustuff.textometer.Exceptions.WebsiteNullOrAddressEmpty;
 import marustuff.textometer.model.Website;
 import marustuff.textometer.repository.WebsiteRepository;
+import org.jsoup.Jsoup;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.server.ResponseStatusException;
+
+import java.net.MalformedURLException;
 
 @Service
 @RequiredArgsConstructor
 public class WebsiteService {
+    private static final String errorWebsiteEmptyOrMalformedView = "errorWebsiteEmptyOrMalformed";
+    private static final String listWebsitesReturn = "list";
+    private static final String listWebsitesModelAttributeName = "currentWebsites";
+    private static final String addWebsiteReturn = "add";
+    private static final String addWebsiteModelAttributeName = "website";
+    private static final String saveWebsiteReturn = "redirect:/website/list";
+    private static final String httpProtocol = "http://";
+    private static final String httpsProtocol = "https://";
+    private static final String errorMalformedWebsiteAddressLogging = "Website address provided was malformed, website address: ";
+
     @NonNull
     @Autowired
     private final WebsiteRepository repository;
-
-    private static final String listWebsitesReturn="list";
-    private static final String listWebsitesRedirectReturn="redirect:/website/list";
-    private static final String listWebsitesModelAttributeName= "currentWebsites";
-    private static final String addWebsiteReturn="add";
-    private static final String addWebsiteModelAttributeName="website";
-    private static final String saveWebsiteReturn="redirect:/website/list";
-    private static final String empty="";
+    private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     public String serveListWebsites(Model model) {
-        model.addAttribute(listWebsitesModelAttributeName,repository.findAll());
+        model.addAttribute(listWebsitesModelAttributeName, repository.findAll());
         return listWebsitesReturn;
     }
 
-    public String serveAddWebsite(Model model){
+    public String serveAddWebsite(Model model) {
         Website website = new Website();
         model.addAttribute(addWebsiteModelAttributeName, website);
         return addWebsiteReturn;
     }
 
-    public String serveSaveWebsite(Website website) throws ResponseStatusException {
+    public String serveSaveWebsite(Website website) {
         try {
-            checkIfEmpty(website);
+            checkUrl(website);
             repository.save(website);
             return saveWebsiteReturn;
-        } catch (NullPointerException e) {
-            return listWebsitesRedirectReturn;
-        }
-
-    }
-
-
-    public void checkIfEmpty(Website website) throws NullPointerException{
-        if (!(website != null && !website.getAddress().equals(null) && !website.getAddress().equals(empty))) {
-            throw new NullPointerException("Website object is empty or address value empty");
+        } catch (MalformedURLException e) {
+            logger.error(errorMalformedWebsiteAddressLogging + website.getAddress());
+            return errorWebsiteEmptyOrMalformedView;
         }
     }
 
-    public void removeWebsite(Website website){
-        System.out.println("removeWebsite :" + website);
+    public void removeWebsite(Website website) {
         repository.deleteById(website.getId());
+    }
+
+    public void checkUrl(Website website) throws MalformedURLException {
+        if (!website.getAddress().startsWith(httpProtocol) && !website.getAddress().startsWith(httpsProtocol)) {
+            throw new MalformedURLException();
+        } else {
+            Jsoup.connect(website.getAddress());
+        }
     }
 }

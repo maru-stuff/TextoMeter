@@ -9,15 +9,16 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 public class IndexController {
     private static final String modelMetering = "metering";
-    private static final String modelVs = "vs";
+    private static final String modelMeteringComparision = "vs";
     private static final String indexControlerReturn = "index";
+
 
     @RequestMapping("/")
     public String fetchIndex(Model model) {
         Metering metering = new Metering();
-        MeteringComparison vs = new MeteringComparison();
+        MeteringComparison meteringComparison = new MeteringComparison();
         model.addAttribute(modelMetering, metering);
-        model.addAttribute(modelVs, vs);
+        model.addAttribute(modelMeteringComparision, meteringComparison);
         return indexControlerReturn;
     }
 }

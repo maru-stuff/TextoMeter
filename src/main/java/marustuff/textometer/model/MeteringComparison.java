@@ -5,7 +5,7 @@ import marustuff.textometer.model.Metering;
 
 @Data
 public class MeteringComparison {
-    private final String emptyWord = "none";
+    private static final String emptyWord = "";
     private String word1;
     private String word2;
     private int percentage;

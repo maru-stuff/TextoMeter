@@ -7,12 +7,13 @@ import marustuff.textometer.model.MeteringComparison;
 import marustuff.textometer.model.Website;
 import marustuff.textometer.repository.MeteringRepository;
 import marustuff.textometer.repository.WebsiteRepository;
-import net.bytebuddy.pool.TypePool;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 
-import java.net.MalformedURLException;
+import java.io.IOException;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.util.Optional;
@@ -20,15 +21,22 @@ import java.util.Optional;
 @Service
 @RequiredArgsConstructor
 public class MeteringService {
-    public static final long timeFromCreationOfObjectInMinutes = 1;
-    private static final String submitVSReturn = "redirect:/request/getvs/";
-    private static final String submitWordReturn = "redirect:/request/get/";
+    public static final String errorEmptyWordView = "errorEmptyWord";
+    private static final long timeFromCreationOfObjectInMinutes = 1;
+    private static final String submitVSReturn = "redirect:/request/getvs?word=";
+    private static final String submitVsSeparator = "&word2=";
+    private static final String submitWordReturn = "redirect:/request/get?word=";
     private static final String serveMeteringReturn = "request";
     private static final String serveMeteringModelAttributeName = "currentWord";
-    private static final String serveVsMeteringReturnIfFound = "vs";
+    private static final String serveVsMeteringReturnFound = "vs";
     private static final String serveVsMeteringModelAttributeName = "currentVs";
     private static final String testMeteringView = "debugMeteringRepository";
-
+    private static final String testMeteringViewAttributeName = "currentWords";
+    private static final String standardErrorView = "error";
+    private static final String empty = "";
+    private static final String errorEmptyWordLogging = "One or both of words were empty.";
+    private static final String errorMalformedWebsiteAddressLogging = "Website address provided was malformed, website address: ";
+    private static final String errorEmptyWebsiteBodyLogging = "Scraped website body is empty, website address: ";
     @Autowired
     private final MeteringRepository meteringRepository;
     @Autowired
@@ -37,18 +45,19 @@ public class MeteringService {
     private final WebsiteRepository websiteRepository;
     @Autowired
     private final WebsiteService websiteService;
+    private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     public Metering createMetering(String word) {
         Metering sum = new Metering(word);
         for (Website website : websiteRepository.findAll()) {
-            try{
+            try {
                 sum.AddMetering(webScraperService.getMetering(website, word));
-            } catch (MalformedWebsiteException e){
-                System.out.println("create metering, malformed website exception");
+            } catch (MalformedWebsiteException e) {
                 websiteService.removeWebsite(e.website);
+                logger.error(errorMalformedWebsiteAddressLogging + website.getAddress());
                 break;
-
-
+            } catch (IOException e) {
+                logger.error(errorEmptyWebsiteBodyLogging + website.getAddress());
             }
         }
         return sum;
@@ -86,18 +95,27 @@ public class MeteringService {
     }
 
     public String debugMetering(Model model) {
-        model.addAttribute("currentWords", meteringRepository.findAll());
+        model.addAttribute(testMeteringViewAttributeName, meteringRepository.findAll());
         return testMeteringView;
     }
 
-    public String submitComparisonView(MeteringComparison vs) {
-        return submitVSReturn + vs.getWord1() + "/" + vs.getWord2();
-
+    public String submitComparisonView(MeteringComparison meteringComparison) {
+        if (meteringComparison.getWord1().equals(empty) || meteringComparison.getWord2().equals(empty)) {
+            logger.error(errorEmptyWordLogging);
+            return errorEmptyWordView;
+        } else {
+            return submitVSReturn + meteringComparison.getWord1() + submitVsSeparator + meteringComparison.getWord2();
+        }
     }
 
 
     public String submitMeteringView(Metering metering) {
-        return submitWordReturn + metering.getWord();
+        if (metering.getWord().equals(empty)) {
+            logger.error(errorEmptyWordLogging);
+            return errorEmptyWordView;
+        } else {
+            return submitWordReturn + metering.getWord();
+        }
     }
 
     public String serveMeteringView(String word, Model model) {
@@ -110,7 +128,7 @@ public class MeteringService {
     public String serveComparisionMeteringView(String word, String word2, Model model) {
         MeteringComparison meteringComparison = new MeteringComparison(pollMetering(word), pollMetering(word2));
         model.addAttribute(serveVsMeteringModelAttributeName, meteringComparison);
-        return serveVsMeteringReturnIfFound;
+        return serveVsMeteringReturnFound;
     }
 
 }

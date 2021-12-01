@@ -32,13 +32,13 @@ public class RequestController {
         return meteringService.debugMetering(model);
     }
 
-    @GetMapping("get/{word}")
-    public String serveMetering(@PathVariable String word, Model model) {
+    @GetMapping("/get")
+    public String serveMetering(@RequestParam("word") String word, Model model) {
         return meteringService.serveMeteringView(word, model);
     }
 
-    @GetMapping("getvs/{word}/{word2}")
-    public String serveVsMetering(@PathVariable("word") String word, @PathVariable("word2") String word2, Model model) {
+    @GetMapping("/getvs")
+    public String serveVsMetering(@RequestParam("word") String word, @RequestParam("word2") String word2, Model model) {
         return meteringService.serveComparisionMeteringView(word, word2, model);
 
     }
