@@ -2,6 +2,8 @@ package marustuff.textometer.service;
 
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
+import marustuff.textometer.EmptyWebsiteRepositoryException;
+import marustuff.textometer.MalformedWebsiteException;
 import marustuff.textometer.model.Website;
 import marustuff.textometer.repository.WebsiteRepository;
 import org.jsoup.Jsoup;
@@ -28,11 +30,11 @@ public class WebsiteService {
 
     @NonNull
     @Autowired
-    private final WebsiteRepository repository;
+    private final WebsiteRepository websiteRepository;
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     public String serveListWebsites(Model model) {
-        model.addAttribute(listWebsitesModelAttributeName, repository.findAll());
+        model.addAttribute(listWebsitesModelAttributeName, websiteRepository.findAll());
         return listWebsitesReturn;
     }
 
@@ -44,18 +46,27 @@ public class WebsiteService {
 
     public String serveSaveWebsite(Website website) {
         try {
-            checkUrl(website);
-            repository.save(website);
+            saveWebsite(website);
             return saveWebsiteReturn;
-        } catch (MalformedURLException e) {
+        } catch (MalformedWebsiteException e) {
             logger.error(errorMalformedWebsiteAddressLogging + website.getAddress());
             return errorWebsiteEmptyOrMalformedView;
         }
     }
 
     public void removeWebsite(Website website) {
-        repository.deleteById(website.getId());
+        websiteRepository.deleteById(website.getId());
     }
+
+    public String removeWebsite(Long id) {
+        if(websiteRepository.existsById(id)) {
+            websiteRepository.deleteById(id);
+            return "200 OK";
+        } else {
+            return "404 not found";
+    }
+
+}
 
     public void checkUrl(Website website) throws MalformedURLException {
         if (!website.getAddress().startsWith(httpProtocol) && !website.getAddress().startsWith(httpsProtocol)) {
@@ -64,4 +75,36 @@ public class WebsiteService {
             Jsoup.connect(website.getAddress());
         }
     }
+
+    public Iterable<Website> findAll() throws  EmptyWebsiteRepositoryException{
+            isRepositoryEmpty();
+            return websiteRepository.findAll();
+    }
+
+    private void isRepositoryEmpty() throws EmptyWebsiteRepositoryException {
+        if(websiteRepository.count()==0){
+            throw new EmptyWebsiteRepositoryException();
+        }
+    }
+
+
+    public Website apiSaveWebsite(Website website) {
+        website.setId(null);
+        try {
+            saveWebsite(website);
+            return website;
+        } catch (MalformedWebsiteException e) {
+            return null;
+        }
+    }
+
+    private void saveWebsite(Website website) throws MalformedWebsiteException {
+        try {
+            checkUrl(website);
+            websiteRepository.save(website);
+        } catch (MalformedURLException e) {
+            logger.error(errorMalformedWebsiteAddressLogging + website.getAddress());
+        }
+    }
+
 }

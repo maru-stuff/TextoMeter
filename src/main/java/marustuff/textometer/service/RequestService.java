@@ -1,6 +1,7 @@
 package marustuff.textometer.service;
 
 import lombok.RequiredArgsConstructor;
+import marustuff.textometer.EmptyWebsiteRepositoryException;
 import marustuff.textometer.MalformedWebsiteException;
 import marustuff.textometer.model.Metering;
 import marustuff.textometer.model.MeteringComparison;
@@ -20,7 +21,7 @@ import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
-public class MeteringService {
+public class RequestService {
     public static final String errorEmptyWordView = "errorEmptyWord";
     private static final long timeFromCreationOfObjectInMinutes = 1;
     private static final String submitVSReturn = "redirect:/request/getvs?word=";
@@ -37,6 +38,7 @@ public class MeteringService {
     private static final String errorEmptyWordLogging = "One or both of words were empty.";
     private static final String errorMalformedWebsiteAddressLogging = "Website address provided was malformed, website address: ";
     private static final String errorEmptyWebsiteBodyLogging = "Scraped website body is empty, website address: ";
+    private static final String errorEmptyWebisteRepositoryView = "errorEmptyWebsiteRepository";
     @Autowired
     private final MeteringRepository meteringRepository;
     @Autowired
@@ -47,9 +49,9 @@ public class MeteringService {
     private final WebsiteService websiteService;
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
-    public Metering createMetering(String word) {
+    public Metering createMetering(String word) throws EmptyWebsiteRepositoryException {
         Metering sum = new Metering(word);
-        for (Website website : websiteRepository.findAll()) {
+        for (Website website : websiteService.findAll()) {
             try {
                 sum.AddMetering(webScraperService.getMetering(website, word));
             } catch (MalformedWebsiteException e) {
@@ -63,6 +65,12 @@ public class MeteringService {
         return sum;
     }
 
+    public Iterable<Metering> findAll() {
+
+        return meteringRepository.findAll();
+    }
+
+
     public void saveMeteringToRepository(Metering metering) {
         try {
             meteringRepository.deleteById(metering.getWord());
@@ -72,7 +80,7 @@ public class MeteringService {
         meteringRepository.save(metering);
     }
 
-    public Metering pollMetering(String word) {
+    public Metering pollMetering(String word) throws EmptyWebsiteRepositoryException {
         Metering metering;
         Optional<Metering> meteringOptional = meteringRepository.findById(word);
         if (meteringOptional.isPresent()) {
@@ -118,17 +126,33 @@ public class MeteringService {
         }
     }
 
-    public String serveMeteringView(String word, Model model) {
-        Metering metering = pollMetering(word);
-        model.addAttribute(serveMeteringModelAttributeName, metering);
-        return serveMeteringReturn;
+    public String getMeteringView(String word, Model model) {
+        try {
+            Metering metering = pollMetering(word);
+            model.addAttribute(serveMeteringModelAttributeName, metering);
+            return serveMeteringReturn;
+        } catch (EmptyWebsiteRepositoryException e) {
+            return errorEmptyWebisteRepositoryView;
+        }
+
     }
 
 
-    public String serveComparisionMeteringView(String word, String word2, Model model) {
-        MeteringComparison meteringComparison = new MeteringComparison(pollMetering(word), pollMetering(word2));
-        model.addAttribute(serveVsMeteringModelAttributeName, meteringComparison);
-        return serveVsMeteringReturnFound;
+    public String getComparisonMeteringView(String word, String word2, Model model) {
+        try {
+            MeteringComparison meteringComparison = new MeteringComparison(pollMetering(word), pollMetering(word2));
+            model.addAttribute(serveVsMeteringModelAttributeName, meteringComparison);
+            return serveVsMeteringReturnFound;
+        }catch(EmptyWebsiteRepositoryException e){
+            return errorEmptyWebisteRepositoryView;
+        }
     }
 
+    public Metering findByWord(String word) {
+        try{
+            return pollMetering(word);
+        }catch(EmptyWebsiteRepositoryException e){
+            return null;
+        }
+    }
 }
