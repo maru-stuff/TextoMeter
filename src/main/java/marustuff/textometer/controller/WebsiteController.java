@@ -21,13 +21,11 @@ public class WebsiteController {
     @GetMapping("/list")
     public String listWebsites(Model model) {
         return websiteService.serveListWebsites(model);
-
     }
 
     @GetMapping("/add")
     public String addWebsite(Model model) {
         return websiteService.serveAddWebsite(model);
-
     }
 
     @PostMapping("/submit")

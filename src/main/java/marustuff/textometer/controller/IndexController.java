@@ -8,17 +8,17 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 public class IndexController {
-    private static final String modelMetering = "metering";
-    private static final String modelMeteringComparision = "vs";
-    private static final String indexControlerReturn = "index";
+    private static final String MODEL_METERING = "metering";
+    private static final String MODEL_METERING_COMPARISON = "vs";
+    private static final String INDEX_CONTROLLER_RETURN = "index";
 
 
     @RequestMapping("/")
     public String fetchIndex(Model model) {
         Metering metering = new Metering();
         MeteringComparison meteringComparison = new MeteringComparison();
-        model.addAttribute(modelMetering, metering);
-        model.addAttribute(modelMeteringComparision, meteringComparison);
-        return indexControlerReturn;
+        model.addAttribute(MODEL_METERING, metering);
+        model.addAttribute(MODEL_METERING_COMPARISON, meteringComparison);
+        return INDEX_CONTROLLER_RETURN;
     }
 }

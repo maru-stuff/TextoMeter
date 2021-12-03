@@ -1,6 +1,5 @@
 package marustuff.textometer.service;
 
-import marustuff.textometer.MalformedWebsiteException;
 import marustuff.textometer.model.Metering;
 import marustuff.textometer.model.Website;
 
@@ -22,8 +21,8 @@ import java.nio.charset.StandardCharsets;
 
 @Service
 public class WebScraperService {
-    private final static String linesplitRegex = "[^A-ZÃƒâ€¦Ãƒâ€žÃƒâ€“a-zÃƒÂ¥ÃƒÂ¤ÃƒÂ¶]+";
-    private final static String emptyElement = "";
+    private final static String LINE_SPLIT_REGEX = "[^A-ZÃƒâ€¦Ãƒâ€žÃƒâ€“a-zÃƒÂ¥ÃƒÂ¤ÃƒÂ¶]+";
+    private final static String EMPTY_ELEMENT = "";
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     public WebScraperService() {
@@ -33,9 +32,7 @@ public class WebScraperService {
         Metering metering = new Metering();
         metering.setWord(word);
         metering.setScore(0);
-
         Document doc;
-
         try {
             doc = Jsoup.connect(website.getAddress()).get();
             if (doc.body().text().equals(null)) {
@@ -45,9 +42,10 @@ public class WebScraperService {
             BufferedReader reader = new BufferedReader(new InputStreamReader(new ByteArrayInputStream(text.getBytes(StandardCharsets.UTF_8))));
             String line;
             while ((line = reader.readLine()) != null) {
-                String[] words = line.split(linesplitRegex);
+                String[] words = line.split(LINE_SPLIT_REGEX);
                 for (String element : words) {
-                    if (emptyElement.equals(element)) {
+                    if (EMPTY_ELEMENT.equals(element)) {
+                        continue;
                     } else {
                         if (element.equals(word)) {
                             metering.incScore();
@@ -60,7 +58,4 @@ public class WebScraperService {
         }
         return metering;
     }
-
 }
-
-// ogólnie pamiętaj o używaniu CTRL+L, poprawia formatowanie kodu :)

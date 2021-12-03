@@ -1,33 +1,30 @@
 package marustuff.textometer.model;
 
 import lombok.Data;
-import marustuff.textometer.model.Metering;
 
 @Data
 public class MeteringComparison {
-    private static final String emptyWord = "";
+    private static final String EMPTY_WORD = "";
     private String word1;
     private String word2;
     private int percentage;
 
     public MeteringComparison() {
-        this.word1 = emptyWord;
-        this.word2 = emptyWord;
+        this.word1 = EMPTY_WORD;
+        this.word2 = EMPTY_WORD;
         this.percentage = 100;
     }
 
-    public MeteringComparison(Metering metone, Metering mettwo) {
-        if (metone.getScore() > mettwo.getScore()) {
-            this.calculatePercentage(metone, mettwo);
-            this.word1 = metone.getWord();
-            this.word2 = mettwo.getWord();
-
+    public MeteringComparison(Metering metOne, Metering metTwo) {
+        if (metOne.getScore() > metTwo.getScore()) {
+            this.calculatePercentage(metOne, metTwo);
+            this.word1 = metOne.getWord();
+            this.word2 = metTwo.getWord();
         } else {
-            this.calculatePercentage(mettwo, metone);
-            this.word1 = mettwo.getWord();
-            this.word2 = metone.getWord();
+            this.calculatePercentage(metTwo, metOne);
+            this.word1 = metTwo.getWord();
+            this.word2 = metOne.getWord();
         }
-
     }
 
     public void calculatePercentage(Metering metone, Metering mettwo) {
@@ -35,7 +32,6 @@ public class MeteringComparison {
             this.percentage = 100;
         } else {
             this.percentage = (int) (((double) metone.getScore() / ((double) metone.getScore() + (double) mettwo.getScore())) * 100);
-
         }
     }
 }

@@ -14,10 +14,9 @@ public class InitializerRunner implements CommandLineRunner {
     private final WebsiteRepository repository;
 
     @Override
-    public void run(String... args){
+    public void run(String... args) {
         repository.save(new Website(1L, "https://hackaday.com/blog/"));
         repository.save(new Website(2L, "https://news.ycombinator.com/"));
         repository.save(new Website(3L, "https://www.vice.com/en"));
-
     }
 }

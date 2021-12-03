@@ -13,7 +13,7 @@ import java.time.Instant;
 @Entity
 @AllArgsConstructor
 public class Metering {
-    private static final String emptyWord = "";
+    private static final String EMPTY_WORD = "";
     @CreationTimestamp
     @Column(updatable = false, nullable = false)
     private Instant createdAt;
@@ -23,7 +23,7 @@ public class Metering {
     private int score;
 
     public Metering() {
-        this.word = emptyWord;
+        this.word = EMPTY_WORD;
         this.score = 0;
     }
 

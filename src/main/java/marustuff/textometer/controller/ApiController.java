@@ -46,12 +46,6 @@ public class ApiController {
         return websiteService.apiSaveWebsite(website);
     }
 
-    @PutMapping("/website/update/{id}")
-    @ResponseStatus(HttpStatus.OK)
-    public void updateWebsite(@RequestBody Website website) {
-        websiteService.apiSaveWebsite(website);
-    }
-
     @DeleteMapping("/website/delete/{id}")
     @ResponseStatus(HttpStatus.OK)
     public String deleteWebsite(@PathVariable("id") Long id) {
